@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Automatický časovač</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 80px;
+        }
+        #timer {
+            font-size: 3em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Časovač</h1>
+<p id="timer">Načítavam...</p>
+
+<script>
+/* =====================================
+   TU NASTAV CIEĽOVÝ DÁTUM A ČAS (LEN TY)
+   ===================================== */
+
+// ROK, MESIAC (0–11!), DEŇ, HOD, MIN, SEK
+const targetDate = new Date(
+    2026,  // rok
+    0,     // mesiac (0 = január, 1 = február)
+    23,    // deň
+    17,    // hodiny
+    0,     // minúty
+    0      // sekundy
+);
+
+/* ===================================== */
+
+function updateTimer() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+        document.getElementById("timer").innerHTML = "ČAS VYPRŠAL!";
+        clearInterval(interval);
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("timer").innerHTML =
+        days + " dní : " +
+        String(hours).padStart(2, "0") + " h : " +
+        String(minutes).padStart(2, "0") + " min : " +
+        String(seconds).padStart(2, "0") + " s";
+}
+
+// okamžité spustenie
+updateTimer();
+const interval = setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>
